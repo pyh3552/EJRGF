@@ -5,8 +5,8 @@
 #include <omp.h>
 #include <fstream>
 
-EJRGFgpu::EJRGFgpu(std::vector<torch::Tensor> input_list, torch::Tensor gmm_mean, float gamma, float sig2, float epsilon, float threshold, int num_iters)
-        :_M(input_list.size()), _K(gmm_mean.size(0)), _gamma(gamma), _epsilon(epsilon), _threshold(threshold), _num_iters(num_iters)
+EJRGFgpu::EJRGFgpu(std::vector<torch::Tensor> input_list, torch::Tensor gmm_mean, float gamma, float sig2, float epsilon, int num_iters)
+        :_M(input_list.size()), _K(gmm_mean.size(0)), _gamma(gamma), _epsilon(epsilon), _num_iters(num_iters)
 {
     _all_pts_num = 0;
     for (int i = 0; i < _M; ++i) {
@@ -177,10 +177,6 @@ std::vector<torch::Tensor> EJRGFgpu::Register() {
         }
 
         loglikelihood = upper;
-
-        // if (fabs(loglikelihood_prev / loglikelihood - 1.0) < _threshold) {
-        //    break;
-        // }
 
     }
     return g_list;

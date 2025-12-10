@@ -6,11 +6,11 @@
 #define EJRGF_EJRGFGPU_H
 #include "permutohedral_lattice_kernel.cuh"
 #include <torch/torch.h>
-std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, int N_PiInSub, int gmm_mean_l_num, int gmm_mean_g_num, float epsilon, float sigma_l, float threshold_l, int num_iters_l, float sigma_g, float threshold_g, int num_iters_g, bool global_refinement);
+std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, int N_PiInSub, int gmm_mean_l_num, int gmm_mean_g_num, float epsilon, float sigma_l, int num_iters_l, float sigma_g, int num_iters_g, bool global_refinement);
 class EJRGFgpu
 {
 public:
-    EJRGFgpu(std::vector<torch::Tensor> input_list, torch::Tensor gmm_mean, float gamma, float sig2=0, float epsilon=1e-6, float threshold=1e-4, int num_iters=500);
+    EJRGFgpu(std::vector<torch::Tensor> input_list, torch::Tensor gmm_mean, float gamma, float sig2=0, float epsilon=1e-6, int num_iters=500);
     std::vector<torch::Tensor> Register();
     torch::Tensor get_gmm_mean();
     torch::Tensor get_Mk0(){return _Mk0;}
@@ -39,7 +39,6 @@ private:
     float _sigma2;
     float _epsilon;
     float _beta;
-    float _threshold;
     int _num_iters;
 
     float initial_sigma();

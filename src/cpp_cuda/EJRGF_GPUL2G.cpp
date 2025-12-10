@@ -120,16 +120,15 @@ std::vector<torch::Tensor> align2first(std::vector<torch::Tensor> g_list)
  * @param gmm_mean_l_num Number of GMM means for local registration. 局部配准时的GMM均值数量。
  * @param epsilon Epsilon value for EJRGF. EJRGF的epsilon值。
  * @param sigma_l Sigma value for local registration. 局部配准时的sigma值。
- * @param threshold_l Threshold value for local registration. 局部配准时的阈值。
  * @param num_iters_l Number of iterations for local registration. 局部配准时的迭代次数。
  * @return std::vector<torch::Tensor> Vector of registered transformation matrix tensors. 配准后的变换矩阵张量的向量。
  */
 
-std::vector<torch::Tensor> REG(std::vector<torch::Tensor> input_list, int s_start, int s_end, int gmm_mean_l_num, float epsilon, float sigma_l, float threshold_l, int num_iters_l)
+std::vector<torch::Tensor> REG(std::vector<torch::Tensor> input_list, int s_start, int s_end, int gmm_mean_l_num, float epsilon, float sigma_l, int num_iters_l)
 {
     std::vector<torch::Tensor> Pss(input_list.begin()+s_start, input_list.begin()+s_end+1);
     torch::Tensor gmms = RandomSampleGMM_from_src(Pss, gmm_mean_l_num);
-    EJRGFgpu ejrgf(Pss, gmms, 1.0/gmms.size(0), sigma_l, epsilon, threshold_l, num_iters_l);
+    EJRGFgpu ejrgf(Pss, gmms, 1.0/gmms.size(0), sigma_l, epsilon, num_iters_l);
     std::vector<torch::Tensor> g_list_s = ejrgf.Register();
     g_list_s = align2first(g_list_s);
     return g_list_s;
@@ -149,15 +148,13 @@ std::vector<torch::Tensor> REG(std::vector<torch::Tensor> input_list, int s_star
  * @param gmm_mean_g_num Number of GMM means for global registration. 全局细化时的GMM均值数量。
  * @param epsilon Epsilon value for EJRGF. EJRGF的epsilon值。
  * @param sigma_l Sigma value for local registration. 局部配准时的sigma值。
- * @param threshold_l Threshold value for local registration. 局部配准时的阈值。
  * @param num_iters_l Number of iterations for local registration. 局部配准时的迭代次数。
  * @param sigma_g Sigma value for global registration. 全局细化时的sigma值。
- * @param threshold_g Threshold value for global registration. 全局细化时的阈值。
  * @param num_iters_g Number of iterations for global registration. 全局细化时的迭代次数。
  * @param global_refinement Whether to perform global refinement. 是否进行全局细化。
  * @return std::vector<torch::Tensor> Vector of registered transformation matrix tensors. 配准后的变换矩阵张量的向量。
  */
-std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, int N_PiInSub, int gmm_mean_l_num, int gmm_mean_g_num, float epsilon, float sigma_l, float threshold_l, int num_iters_l, float sigma_g, float threshold_g, int num_iters_g, bool global_refinement)
+std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, int N_PiInSub, int gmm_mean_l_num, int gmm_mean_g_num, float epsilon, float sigma_l, int num_iters_l, float sigma_g, int num_iters_g, bool global_refinement)
 {
     // 输入点云的总数量
     int N_P = input_list.size();
@@ -182,7 +179,7 @@ std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, i
 
         torch::Tensor gmm = RandomSampleGMM_from_src(input_list, gmm_mean_l_num);
 
-        EJRGFgpu ejrgf(input_list, gmm, 1.0/gmm.size(0), sigma_l, epsilon, threshold_l, num_iters_l);
+        EJRGFgpu ejrgf(input_list, gmm, 1.0/gmm.size(0), sigma_l, epsilon, num_iters_l);
         std::vector<torch::Tensor> g_list = ejrgf.Register();
         std::vector<torch::Tensor> g_list_ali = align2first(g_list);
         return g_list_ali;
@@ -199,7 +196,7 @@ std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, i
         for (int i = 0; i < N_subP; ++i) {
             int s_start = idxs_P[i];
             int s_end = idxs_P[i+1];
-            g_local_group_list[i] = REG(input_list, s_start, s_end,gmm_mean_l_num, epsilon, sigma_l, threshold_l, num_iters_l);
+            g_local_group_list[i] = REG(input_list, s_start, s_end,gmm_mean_l_num, epsilon, sigma_l, num_iters_l);
         }
 
 
@@ -224,7 +221,7 @@ std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, i
             // global refinement
             std::vector<torch::Tensor> TP_l_end = trans_clouds(input_list, g_list_g);
             torch::Tensor gmm = RandomSampleGMM_from_src(TP_l_end, gmm_mean_g_num);
-            EJRGFgpu ejrgf_g(TP_l_end, gmm, 1.0/gmm.size(0), sigma_g, epsilon, threshold_g, num_iters_g);
+            EJRGFgpu ejrgf_g(TP_l_end, gmm, 1.0/gmm.size(0), sigma_g, epsilon, num_iters_g);
             std::vector<torch::Tensor> g_list_refine = ejrgf_g.Register();
             g_list_refine = align2first(g_list_refine);
             std::vector<torch::Tensor> g_list_result;

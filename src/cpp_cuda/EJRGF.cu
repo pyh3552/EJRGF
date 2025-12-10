@@ -14,10 +14,8 @@ EJRGF_L2G_CUDA(std::vector<torch::Tensor> input,
                 int gmm_mean_global_num,
                 float epsilon,
                 float local_sigma,
-                float local_threshold,
                 int local_iteration_num,
                 float global_sigma,
-                float global_threshold,
                 int global_iteration_num, 
                 bool global_refinement)
 {
@@ -27,10 +25,8 @@ EJRGF_L2G_CUDA(std::vector<torch::Tensor> input,
                 gmm_mean_global_num,
                 epsilon,
                 local_sigma,
-                local_threshold,
                 local_iteration_num,
                 global_sigma,
-                global_threshold,
                 global_iteration_num, 
                 global_refinement);
 }
