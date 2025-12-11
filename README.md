@@ -45,7 +45,7 @@ cd example
 python demo.py
 ```
 
-# # ToDo
+# ToDo
 
 - add more examples
 - upload pypi
