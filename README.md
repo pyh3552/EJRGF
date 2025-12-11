@@ -20,6 +20,10 @@ To run the demo we prepared, you need to have [Open3D](https://www.open3d.org/) 
 ```bash
 pip install .
 ```
+or
+```bash
+pip install . --no-build-isolation
+```
 
 # Demo
 Run the demo script

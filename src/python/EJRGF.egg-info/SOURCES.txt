@@ -1,5 +1,5 @@
+LICENSE
 README.md
-pyproject.toml
 setup.py
 src/cpp_cuda/EJRGF.cu
 src/cpp_cuda/EJRGF_GPUL2G.cpp
@@ -10,5 +10,4 @@ src/python/EJRGF/__init__.py
 src/python/EJRGF.egg-info/PKG-INFO
 src/python/EJRGF.egg-info/SOURCES.txt
 src/python/EJRGF.egg-info/dependency_links.txt
-src/python/EJRGF.egg-info/requires.txt
 src/python/EJRGF.egg-info/top_level.txt
