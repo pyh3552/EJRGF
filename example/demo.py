@@ -24,11 +24,10 @@ o3d.visualization.draw_geometries(pcd_list)
 
 subgroup_size = 10
 gmm_mean_local_num = 500
-gmm_mean_global_num = 0
 epsilon = 1e-6
 local_sigma = 0
 local_iteration_num = 200
-g_list = EJRGF_register(tensor_list, subgroup_size, gmm_mean_local_num, gmm_mean_global_num, epsilon, local_sigma, local_iteration_num)
+g_list = EJRGF_register(tensor_list, subgroup_size, gmm_mean_local_num, epsilon, local_sigma, local_iteration_num)
 print(g_list)
 T_pcd_list = []
 for i, mat in enumerate(g_list):

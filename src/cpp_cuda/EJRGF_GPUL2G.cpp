@@ -160,6 +160,7 @@ std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, i
     int N_P = input_list.size();
     std::cout << "Frame Number = " << N_P << std::endl;
     std::vector<int> idxs_P;
+    std::cout << "[ ";
     for (int i = 0; i < N_P; i=i+N_PiInSub-1) {
         idxs_P.push_back(i);
         std::cout << i << "\t";
@@ -168,6 +169,7 @@ std::vector<torch::Tensor> EJRGF_GPUL2G(std::vector<torch::Tensor> input_list, i
         idxs_P.push_back(N_P-1);
         std::cout << N_P-1 << "\t";
     }
+    std::cout << " ]";
     std::cout << "\n";
 
     int N_subP = idxs_P.size() - 1;

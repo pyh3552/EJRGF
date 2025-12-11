@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "torch>=1.13.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "EJRGF"
+version = "0.0.0"
+description = "Efficient Joint Registration of Multiple Point Clouds using Fast Gaussian Filter"
+authors = [
+    {name = "Yihan Pan", email = "Y20210060@mail.ecust.edu.cn"},
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = "GPL-3.0"
+dependencies = [
+    "torch>=1.13.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src/python"}
+
+[tool.setuptools.packages.find]
+where = ["src/python"]
