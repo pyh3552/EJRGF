@@ -11,8 +11,12 @@ Joint registration plays a critical role when it comes to aligning multiple poin
 1. Clone the repository
 ```bash
 git clone https://github.com/pyh3552/EJRGF.git
+cd EJRGF
 ```
-2. Install EJRGF
+2. Dependencies
+To compile the CUDA extensions, you need to have [PyTorch](https://pytorch.org/) installed.
+To run the demo we prepared, you need to have [Open3D](https://www.open3d.org/) and [Numpy](https://numpy.org/) installed.
+3. Install EJRGF
 ```bash
 pip install .
 ```
